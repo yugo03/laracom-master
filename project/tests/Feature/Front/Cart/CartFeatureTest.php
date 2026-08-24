@@ -87,10 +87,10 @@ class CartFeatureTest extends TestCase
     {
         $this->get(route('cart.login'))
             ->assertStatus(200)
-            ->assertSee('Email')
-            ->assertSee('Password')
-            ->assertSee('Login now')
-            ->assertSee('I forgot my password');
+            ->assertSee('メールアドレス')
+            ->assertSee('パスワード')
+            ->assertSee('ログイン')
+            ->assertSee('パスワードをお忘れの方');
     }
 
     /** @test */

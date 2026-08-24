@@ -43,10 +43,10 @@ class FrontAccountsFeatureTest extends TestCase
     {
         $this->get(route('register'))
             ->assertStatus(200)
-            ->assertSee('Name')
-            ->assertSee('E-Mail Address')
-            ->assertSee('Password')
-            ->assertSee('Confirm Password');
+            ->assertSee('お名前')
+            ->assertSee('メールアドレス')
+            ->assertSee('パスワード')
+            ->assertSee('パスワード確認');
     }
 
     /** @test */
@@ -54,9 +54,9 @@ class FrontAccountsFeatureTest extends TestCase
     {
         $this->get(route('password.request'))
             ->assertStatus(200)
-            ->assertSee('E-Mail Address')
-            ->assertSee('Send Password Reset Link')
-            ->assertSee('Reset Password');
+            ->assertSee('メールアドレス')
+            ->assertSee('再設定用リンクを送信')
+            ->assertSee('パスワード再設定');
     }
 
     /** @test */
@@ -64,11 +64,11 @@ class FrontAccountsFeatureTest extends TestCase
     {
         $this->get(route('login'))
             ->assertStatus(200)
-            ->assertSee('Email')
-            ->assertSee('Password')
-            ->assertSee('Login now')
-            ->assertSee('I forgot my password')
-            ->assertSee('No account? Register here.');
+            ->assertSee('メールアドレス')
+            ->assertSee('パスワード')
+            ->assertSee('ログイン')
+            ->assertSee('パスワードをお忘れの方')
+            ->assertSee('アカウントをお持ちでない方はこちら');
     }
 
     /** @test */

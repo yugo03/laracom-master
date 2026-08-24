@@ -199,12 +199,13 @@ li.menubar-cart a {
         HERO AREA
 ************************** */
 .top-area {
-    /* 写真未設定時はグラデーションのみ表示。実写真を使う場合は
-       public/images/hero-jewelry.jpg を配置すれば自動的に背景に重なる */
+    /* 現在はグラデーションのみ表示。実写真を使う場合は
+       1. public/images/hero-jewelry.jpg を配置
+       2. 下の background-image に , url('../images/hero-jewelry.jpg') を追記
+       (画像未配置のままurl()を書くとコンソールに404エラーが出るため、配置するまではコメントアウトのままにする) */
     background-color: var(--ink);
     background-image:
-        linear-gradient(120deg, rgba(28, 28, 28, 0.92) 0%, rgba(28, 28, 28, 0.75) 55%, rgba(216, 149, 34, 0.35) 100%),
-        url('../images/hero-jewelry.jpg');
+        linear-gradient(120deg, rgba(28, 28, 28, 0.92) 0%, rgba(28, 28, 28, 0.75) 55%, rgba(216, 149, 34, 0.35) 100%);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

@@ -12,6 +12,10 @@ services:
     volumes:
       - ./project:/var/www
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - vendor_data:/var/www/vendor
+      - sessions_data:/var/www/storage/framework/sessions
+      - views_cache:/var/www/storage/framework/views
+      - cache_data:/var/www/storage/framework/cache
     networks:
       - app-network
   webserver:
@@ -62,4 +66,12 @@ networks:
     driver: bridge
 volumes:
   dbdata:
+    driver: local
+  vendor_data:
+    driver: local
+  sessions_data:
+    driver: local
+  views_cache:
+    driver: local
+  cache_data:
     driver: local
