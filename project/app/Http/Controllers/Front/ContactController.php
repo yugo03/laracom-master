@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Mail\InquiryMailable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
@@ -11,68 +13,18 @@ class ContactController extends Controller
     {
         return view('front.contact');
     }
-    public function getEvents()
-    {
-        $events = [
-            [
-                'title' => 'All Day Event',
-                'start' => '2018-01-01',
-            ],
-            [
-                'title' => 'Long Event',
-                'start' => '2018-01-07',
-                'end' => '2018-01-10',
-            ],
-            [
-                'groupId' => 999,
-                'title' => 'Repeating Event',
-                'start' => '2018-01-09T16:00:00',
-            ],
-            [
-                'groupId' => 999,
-                'title' => 'Repeating Event',
-                'start' => '2018-01-16T16:00:00',
-            ],
-            [
-                'title' => 'Conference',
-                'start' => '2018-01-11',
-                'end' => '2018-01-13',
-            ],
-            [
-                'title' => 'Meeting',
-                'start' => '2018-01-12T10:30:00',
-                'end' => '2018-01-12T12:30:00',
-            ],
-            [
-                'title' => 'Lunch',
-                'start' => '2018-01-12T12:00:00',
-            ],
-            [
-                'title' => 'Meeting',
-                'start' => '2018-01-12T14:30:00',
-            ],
-            [
-                'title' => 'Happy Hour',
-                'start' => '2018-01-12T17:30:00',
-            ],
-            [
-                'title' => 'Dinner',
-                'start' => '2018-01-12T20:00:00',
-            ],
-            [
-                'title' => 'Birthday Party',
-                'start' => '2018-01-13T07:00:00',
-            ],
-            [
-                'title' => 'Click for Google',
-                'url' => 'http://google.com/',
-                'start' => '2018-01-28',
-            ],
-        ];
 
-        return view('calendar.index', [
-            'events' => $events,
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:150',
+            'iam' => 'required|string|max:50',
+            'message' => 'required|string|max:2000',
         ]);
 
+        Mail::to(config('shop.email'))->send(new InquiryMailable($data));
+
+        return redirect()->route('contact')->with('message', 'お問い合わせを送信しました。担当者よりご連絡いたします。');
     }
 }

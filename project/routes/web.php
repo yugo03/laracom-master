@@ -108,6 +108,7 @@ Route::namespace('Front')->group(function () {
     Route::resource('cart', 'CartController');
     Route::get('contact', 'ContactController@index')->name('contact');
     Route::post('contact', 'ContactController@store')->name('contact.store');
+    Route::get('terms', 'PageController@terms')->name('terms');
     Route::get("category/{slug}", 'CategoryController@getCategory')->name('front.category.slug');
     Route::get("search", 'ProductController@search')->name('search.product');
     Route::get("{product}", 'ProductController@show')->name('front.get.product');
