@@ -13,11 +13,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name') }}</title>
-    <title>Laracom - Laravel FREE E-Commerce Software</title>
-    <meta name="description" content="Modern open-source e-commerce framework for free">
-    <meta name="tags" content="modern, opensource, open-source, e-commerce, framework, free, laravel, php, php7, symfony, shop, shopping, responsive, fast, software, blade, cart, test driven, adminlte, storefront">
-    <meta name="author" content="Jeff Simons Decena">
+    <title>{{ config('app.name') }} | 上質なジュエリーのオンラインストア</title>
+    <meta name="description" content="Clarijewelは、上質なジュエリーをお届けするオンラインストアです。指輪・ネックレス・ピアスなど、特別な瞬間を彩るアイテムを取り揃えています。">
+    <meta name="tags" content="ジュエリー, 宝石, 指輪, ネックレス, ピアス, アクセサリー, オンラインストア, EC, Clarijewel">
+    <meta name="author" content="Clarijewel">
     <link href="{{ asset('css/style.min.css') }}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -52,8 +51,8 @@
 <body>
 <noscript>
     <p class="alert alert-danger">
-        You need to turn on your javascript. Some functionality will not work if this is disabled.
-        <a href="https://www.enable-javascript.com/" target="_blank">Read more</a>
+        JavaScriptが無効になっています。一部の機能が正しく動作しない可能性があります。
+        <a href="https://www.enable-javascript.com/" target="_blank">詳しくはこちら</a>
     </p>
 </noscript>
 <section>
@@ -63,11 +62,11 @@
             <div class="pull-right">
                 <ul class="nav navbar-nav navbar-right">
                     @if(auth()->check())
-                        <li><a href="{{ route('accounts', ['tab' => 'profile']) }}"><i class="fa fa-home"></i> My Account</a></li>
-                        <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>
+                        <li><a href="{{ route('accounts', ['tab' => 'profile']) }}"><i class="fa fa-home"></i> マイページ</a></li>
+                        <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> ログアウト</a></li>
                     @else
-                        <li><a href="{{ route('login') }}"> <i class="fa fa-lock"></i> Login</a></li>
-                        <li><a href="{{ route('register') }}"> <i class="fa fa-sign-in"></i> Register</a></li>
+                        <li><a href="{{ route('login') }}"> <i class="fa fa-lock"></i> ログイン</a></li>
+                        <li><a href="{{ route('register') }}"> <i class="fa fa-sign-in"></i> 新規登録</a></li>
                     @endif
                     <li id="cart" class="menubar-cart">
                         <a href="{{ route('cart.index') }}" title="View Cart" class="awemenu-icon menu-shopping-cart">

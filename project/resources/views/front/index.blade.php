@@ -10,7 +10,7 @@
     @include('layouts.front.home-slider')
 
     @if ($cat1->products->isNotEmpty())
-        <section class="new-product t100 home">
+        <section id="collection" class="new-product t100 home">
             <div class="container">
                 <div class="section-title b100">
                     <h2>{{ $cat1->name }}</h2>
@@ -19,7 +19,7 @@
                     'products' => $cat1->products->where('status', 1),
                 ])
                 <div id="browse-all-btn"> <a class="btn btn-default browse-all-btn"
-                        href="{{ route('front.category.slug', $cat1->slug) }}" role="button">browse all items</a></div>
+                        href="{{ route('front.category.slug', $cat1->slug) }}" role="button">すべて見る</a></div>
             </div>
         </section>
     @endif
@@ -31,7 +31,7 @@
             </div>
             @include('front.products.product-list', ['products' => $cat2->products->where('status', 1)])
             <div id="browse-all-btn"> <a class="btn btn-default browse-all-btn"
-                    href="{{ route('front.category.slug', $cat2->slug) }}" role="button">browse all items</a></div>
+                    href="{{ route('front.category.slug', $cat2->slug) }}" role="button">すべて見る</a></div>
         </div>
     @endif
 @endsection

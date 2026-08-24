@@ -23,6 +23,7 @@ package-lock.json
 /build
 Envoy.blade.php
 /coverage
+.phpunit.result.cache
 \.php_cs\.cache
 public/css
 public/js

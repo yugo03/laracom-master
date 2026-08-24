@@ -4,9 +4,9 @@
             <div class="col-md-12 text-center">
 
                 <ul class="footer-menu">
-                    <li> <a href="{{ route('accounts', ['tab' => 'profile']) }}">Your account</a> </li>
+                    <li> <a href="{{ route('accounts', ['tab' => 'profile']) }}">マイページ</a> </li>
                     <li> <a href="{{ route('contact', ['type' => 'inquiry']) }}">お問い合わせ</a> </li>
-                    <li> <a href="">Terms of service</a> </li>
+                    <li> <a href="">利用規約</a> </li>
                 </ul>
 
                 <ul class="footer-social">

@@ -37,8 +37,8 @@ class HomeFeatureTest extends TestCase
 
         $this
             ->get(route('home'))
-            ->assertSee('Login')
-            ->assertSee('Register')
+            ->assertSee('ログイン')
+            ->assertSee('新規登録')
             ->assertSee($cat1->name)
             ->assertSee($cat2->name)
             ->assertStatus(200);
