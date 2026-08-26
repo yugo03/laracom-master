@@ -57,7 +57,6 @@
                                                                     <th>Address</th>
                                                                     <th>Payment Method</th>
                                                                     <th>Total</th>
-                                                                    <th>Status</th>
                                                                 </thead>
                                                                 <tbody>
                                                                     <tr>
@@ -69,10 +68,10 @@
                                                                         </td>
                                                                         <td>{{$order['payment']}}</td>
                                                                         <td>{{ config('cart.currency_symbol') }} {{$order['total']}}</td>
-                                                                        <td><p class="text-center" style="color: #ffffff; background-color: {{ $order['status']->color }}">{{ $order['status']->name }}</p></td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
+                                                            @include('front.customers.order-status', ['status' => $order['status']])
                                                             <hr>
                                                             <p>Order details:</p>
                                                             <table class="table">
@@ -146,7 +145,7 @@
                                             </div>
                                         </td>
                                         <td><span class="label @if($order['total'] != $order['total_paid']) label-danger @else label-success @endif">{{ config('cart.currency') }} {{ $order['total'] }}</span></td>
-                                        <td><p class="text-center" style="color: #ffffff; background-color: {{ $order['status']->color }}">{{ $order['status']->name }}</p></td>
+                                        <td>@include('front.customers.order-status', ['status' => $order['status'], 'compact' => true])</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

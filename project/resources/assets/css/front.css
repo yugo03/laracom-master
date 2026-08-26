@@ -621,6 +621,74 @@ a:hover img {
     padding-top: 15px;
 }
 
+.order-status-badge {
+    border-radius: 3px;
+    padding: 4px 6px;
+    margin: 0;
+    font-size: 12px;
+}
+
+.order-status-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 25px;
+    padding: 0;
+    list-style: none;
+}
+
+.order-status-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    color: #b5b5b5;
+}
+
+.order-status-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: #e6e6e6;
+    z-index: 0;
+}
+
+.order-status-step.is-complete:not(:last-child)::after {
+    background: var(--gold);
+}
+
+.order-status-step-dot {
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 0 auto 8px;
+    border-radius: 50%;
+    background: #e6e6e6;
+    border: 2px solid #e6e6e6;
+    position: relative;
+    z-index: 1;
+}
+
+.order-status-step.is-complete .order-status-step-dot {
+    background: var(--gold);
+    border-color: var(--gold);
+}
+
+.order-status-step.is-current .order-status-step-dot {
+    box-shadow: 0 0 0 4px rgba(216, 149, 34, 0.25);
+}
+
+.order-status-step-label {
+    font-size: 12px;
+}
+
+.order-status-step.is-complete .order-status-step-label,
+.order-status-step.is-current .order-status-step-label {
+    color: var(--ink);
+    font-weight: 600;
+}
+
 .product-list {
     min-height: 400px;
 }
