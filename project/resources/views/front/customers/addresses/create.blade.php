@@ -10,19 +10,19 @@
                 <div class="box-body">
                     {{ csrf_field() }}
                     <div class="form-group">
-                        <label for="alias">Alias <span class="text-danger">*</span></label>
-                        <input type="text" name="alias" id="alias" placeholder="Home or Office" class="form-control" value="{{ old('alias') }}">
+                        <label for="alias">名称 <span class="text-danger">*</span></label>
+                        <input type="text" name="alias" id="alias" placeholder="自宅、勤務先など" class="form-control" value="{{ old('alias') }}">
                     </div>
                     <div class="form-group">
-                        <label for="address_1">Address 1 <span class="text-danger">*</span></label>
-                        <input type="text" name="address_1" id="address_1" placeholder="Address 1" class="form-control" value="{{ old('address_1') }}">
+                        <label for="address_1">住所1 <span class="text-danger">*</span></label>
+                        <input type="text" name="address_1" id="address_1" placeholder="住所1" class="form-control" value="{{ old('address_1') }}">
                     </div>
                     <div class="form-group">
-                        <label for="address_2">Address 2 </label>
-                        <input type="text" name="address_2" id="address_2" placeholder="Address 2" class="form-control" value="{{ old('address_2') }}">
+                        <label for="address_2">住所2</label>
+                        <input type="text" name="address_2" id="address_2" placeholder="住所2" class="form-control" value="{{ old('address_2') }}">
                     </div>
                     <div class="form-group">
-                        <label for="country_id">Country </label>
+                        <label for="country_id">国</label>
                         <select name="country_id" id="country_id" class="form-control select2">
                             @foreach($countries as $country)
                                 <option @if(env('SHOP_COUNTRY_ID') == $country->id) selected="selected" @endif value="{{ $country->id }}">{{ $country->name }}</option>
@@ -32,19 +32,19 @@
                     <div id="provinces" class="form-group" style="display: none;"></div>
                     <div id="cities" class="form-group" style="display: none;"></div>
                     <div class="form-group">
-                        <label for="zip">Zip Code </label>
-                        <input type="text" name="zip" id="zip" placeholder="Zip code" class="form-control" value="{{ old('zip') }}">
+                        <label for="zip">郵便番号</label>
+                        <input type="text" name="zip" id="zip" placeholder="郵便番号" class="form-control" value="{{ old('zip') }}">
                     </div>
                     <div class="form-group">
-                        <label for="phone">Your Phone </label>
-                        <input type="text" name="phone" id="phone" placeholder="Phone number" class="form-control" value="{{ old('phone') }}">
+                        <label for="phone">電話番号</label>
+                        <input type="text" name="phone" id="phone" placeholder="電話番号" class="form-control" value="{{ old('phone') }}">
                     </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <div class="btn-group">
-                        <a href="{{ route('accounts', ['tab' => 'address']) }}" class="btn btn-default">Back</a>
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <a href="{{ route('accounts', ['tab' => 'address']) }}" class="btn btn-default">戻る</a>
+                        <button type="submit" class="btn btn-primary">登録する</button>
                     </div>
                 </div>
             </form>
@@ -69,7 +69,7 @@
                 contentType: 'json',
                 success: function (res) {
                     if (res.data.length > 0) {
-                        let html = '<label for="province_id">Provinces </label>';
+                        let html = '<label for="province_id">都道府県 </label>';
                         html += '<select name="province_id" id="province_id" class="form-control select2">';
                         $(res.data).each(function (idx, v) {
                             html += '<option value="'+ v.id+'">'+ v.name +'</option>';
@@ -98,7 +98,7 @@
                 url: '/api/v1/country/' + countryId + '/province/' + provinceOrStateId + '/city',
                 contentType: 'json',
                 success: function (data) {
-                    let html = '<label for="city_id">City </label>';
+                    let html = '<label for="city_id">市区町村 </label>';
                     html += '<select name="city_id" id="city_id" class="form-control select2">';
                     $(data.data).each(function (idx, v) {
                         html += '<option value="'+ v.id+'">'+ v.name +'</option>';
@@ -120,7 +120,7 @@
                 contentType: 'json',
                 success: function (res) {
                     if (res.data.length > 0) {
-                        let html = '<label for="state_code">States </label>';
+                        let html = '<label for="state_code">州 </label>';
                         html += '<select name="state_code" id="state_code" class="form-control select2">';
                         $(res.data).each(function (idx, v) {
                             html += '<option value="'+ v.state_code+'">'+ v.state +'</option>';
@@ -150,7 +150,7 @@
                 contentType: 'json',
                 success: function (res) {
                     if (res.data.length > 0) {
-                        let html = '<label for="city">City </label>';
+                        let html = '<label for="city">市区町村 </label>';
                         html += '<select name="city" id="city" class="form-control select2">';
                         $(res.data).each(function (idx, v) {
                             html += '<option value="'+ v.name+'">'+ v.name +'</option>';

@@ -6,8 +6,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <ol class="breadcrumb">
-                            <li><a href="{{ route('home') }}"> <i class="fa fa-home"></i> Home</a></li>
-                            <li class="active">Cart</li>
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}"> <i class="fa fa-home"></i> ホーム</a></li>
+                            <li class="breadcrumb-item active">カート</li>
                         </ol>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                         <div class="box-body">
                             @include('layouts.errors-and-messages')
                         </div>
-                        <h3><i class="fa fa-cart-plus"></i> Shopping Cart</h3>
+                        <h3><i class="fa fa-cart-plus"></i> ショッピングカート</h3>
                     </div>
                 </div>
 
@@ -29,17 +29,17 @@
                             
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
                                 <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><b>Cover</b></div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><b>画像</b></div>
                                 </div>
                             </div>
 
                             <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
                                 <div class="row">
-                                    <div class="col-lg-5 col-md-5"><b>Name</b></div>
-                                    <div class="col-lg-2 col-md-2"><b>Quantity</b></div>
-                                    <div class="col-lg-1 col-md-1"><b>Remove</b></div>
-                                    <div class="col-lg-2 col-md-2"><b>Price</b></div>
-                                    <div class="col-lg-2 col-md-2"><b>Total</b></div>
+                                    <div class="col-lg-5 col-md-5"><b>商品名</b></div>
+                                    <div class="col-lg-2 col-md-2"><b>数量</b></div>
+                                    <div class="col-lg-1 col-md-1"><b>削除</b></div>
+                                    <div class="col-lg-2 col-md-2"><b>価格</b></div>
+                                    <div class="col-lg-2 col-md-2"><b>小計</b></div>
                                 </div>
                             </div>
 
@@ -86,7 +86,7 @@
                                                 <input type="hidden" name="_method" value="put">
                                                 <div class="input-group">
                                                     <input type="text" name="quantity" value="{{ $cartItem->qty }}" class="form-control input-sm" />
-                                                    <span class="input-group-btn"><button class="btn btn-default btn-sm">Update</button></span>
+                                                    <span class="input-group-btn"><button class="btn btn-default btn-sm">更新</button></span>
                                                 </div>
                                             </form>
                                         </div>
@@ -94,15 +94,15 @@
                                             <form action="{{ route('cart.destroy', $cartItem->rowId) }}" method="post">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="_method" value="delete">
-                                                <button onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+                                                <button onclick="return confirm('本当に削除しますか?')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
                                             </form>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                            <span class="hidden-lg hidden-md"><small>Price: </span>
+                                            <span class="hidden-lg hidden-md"><small>価格: </span>
                                             {{config('cart.currency')}} {{ number_format($cartItem->price, 2) }}</small>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                            <span class="hidden-lg hidden-md"><small>Total: </span>
+                                            <span class="hidden-lg hidden-md"><small>小計: </span>
                                             {{config('cart.currency')}} {{ number_format(($cartItem->qty*$cartItem->price), 2) }}</small>
                                         </div>
 
@@ -127,15 +127,15 @@
                                     <input type="hidden" name="_method" value="delete">
                                     <div class="input-group">
                                         <input type="text" class="form-control" value="{{ $appliedCoupon->code }}" disabled>
-                                        <span class="input-group-btn"><button class="btn btn-danger">Remove coupon</button></span>
+                                        <span class="input-group-btn"><button class="btn btn-danger">クーポンを解除</button></span>
                                     </div>
                                 </form>
                             @else
                                 <form action="{{ route('cart.coupon.store') }}" method="post" class="form-inline">
                                     {{ csrf_field() }}
                                     <div class="input-group">
-                                        <input type="text" name="code" class="form-control" placeholder="Coupon code" value="{{ old('code') }}">
-                                        <span class="input-group-btn"><button class="btn btn-primary">Apply coupon</button></span>
+                                        <input type="text" name="code" class="form-control" placeholder="クーポンコード" value="{{ old('code') }}">
+                                        <span class="input-group-btn"><button class="btn btn-primary">クーポンを適用</button></span>
                                     </div>
                                 </form>
                             @endif
@@ -143,7 +143,7 @@
                         <table class="table table-striped">
                             <tfoot>
                                 <tr>
-                                    <td class="bg-warning">Subtotal</td>
+                                    <td class="bg-warning">小計</td>
                                     <td class="bg-warning"></td>
                                     <td class="bg-warning"></td>
                                     <td class="bg-warning"></td>
@@ -151,7 +151,7 @@
                                 </tr>
                                 @if(isset($shippingFee) && $shippingFee != 0)
                                 <tr>
-                                    <td class="bg-warning">Shipping</td>
+                                    <td class="bg-warning">送料</td>
                                     <td class="bg-warning"></td>
                                     <td class="bg-warning"></td>
                                     <td class="bg-warning"></td>
@@ -159,7 +159,7 @@
                                 </tr>
                                 @endif
                                 <tr>
-                                    <td class="bg-warning">Tax</td>
+                                    <td class="bg-warning">税</td>
                                     <td class="bg-warning"></td>
                                     <td class="bg-warning"></td>
                                     <td class="bg-warning"></td>
@@ -167,7 +167,7 @@
                                 </tr>
                                 @if($discount > 0)
                                 <tr>
-                                    <td class="bg-warning">Discount @if($appliedCoupon)({{ $appliedCoupon->code }})@endif</td>
+                                    <td class="bg-warning">割引 @if($appliedCoupon)({{ $appliedCoupon->code }})@endif</td>
                                     <td class="bg-warning"></td>
                                     <td class="bg-warning"></td>
                                     <td class="bg-warning"></td>
@@ -175,7 +175,7 @@
                                 </tr>
                                 @endif
                                 <tr>
-                                    <td class="bg-success">Total</td>
+                                    <td class="bg-success">合計</td>
                                     <td class="bg-success"></td>
                                     <td class="bg-success"></td>
                                     <td class="bg-success"></td>
@@ -187,8 +187,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="btn-group pull-right">
-                                    <a href="{{ route('home') }}" class="btn btn-default">Continue shopping</a>
-                                    <a href="{{ route('checkout.index') }}" class="btn btn-primary">Go to checkout</a>
+                                    <a href="{{ route('home') }}" class="btn btn-default">買い物を続ける</a>
+                                    <a href="{{ route('checkout.index') }}" class="btn btn-primary">レジに進む</a>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +197,7 @@
             @else
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="alert alert-warning">No products in cart yet. <a href="{{ route('home') }}">Shop now!</a></p>
+                        <p class="alert alert-warning">カートに商品がまだありません。<a href="{{ route('home') }}">今すぐ見る!</a></p>
                     </div>
                 </div>
             @endif

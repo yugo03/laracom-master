@@ -4,7 +4,7 @@
             <div class="box-tools">
                 <p class="alert alert-warning alert-dismissible">
                     {{ $message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </p>
             </div>
         </div>

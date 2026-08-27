@@ -8,7 +8,7 @@
                 @include('layouts.errors-and-messages')
             </div>
             <div class="col-md-12">
-                <h2> <i class="fa fa-home"></i> My Account</h2>
+                <h2> <i class="fa fa-home"></i> マイページ</h2>
                 <hr>
             </div>
         </div>
@@ -17,46 +17,73 @@
                 <div>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" @if(request()->input('tab') == 'profile') class="active" @endif><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-                        <li role="presentation" @if(request()->input('tab') == 'orders') class="active" @endif><a href="#orders" aria-controls="orders" role="tab" data-toggle="tab">Orders</a></li>
-                        <li role="presentation" @if(request()->input('tab') == 'address') class="active" @endif><a href="#address" aria-controls="address" role="tab" data-toggle="tab">Addresses</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link @if(request()->input('tab') != 'orders' && request()->input('tab') != 'address') active @endif" href="#profile" aria-controls="profile" role="tab" data-bs-toggle="tab">プロフィール</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link @if(request()->input('tab') == 'orders') active @endif" href="#orders" aria-controls="orders" role="tab" data-bs-toggle="tab">注文履歴</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link @if(request()->input('tab') == 'address') active @endif" href="#address" aria-controls="address" role="tab" data-bs-toggle="tab">住所</a></li>
                     </ul>
 
                     <!-- Tab panes -->
                     <div class="tab-content customer-order-list">
-                        <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'profile')active @endif" id="profile">
+                        <div role="tabpanel" class="tab-pane fade @if(request()->input('tab') != 'orders' && request()->input('tab') != 'address') show active @endif" id="profile">
                             {{$customer->name}} <br /><small>{{$customer->email}}</small>
+
+                            <h4 style="margin-top:25px;">利用可能なクーポン</h4>
+                            @if($availableCoupons->isEmpty())
+                                <p class="text-muted">現在ご利用いただけるクーポンはありません。</p>
+                            @else
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>クーポンコード</th>
+                                            <th>内容</th>
+                                            <th>有効期限</th>
+                                            <th>条件</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($availableCoupons as $coupon)
+                                            <tr>
+                                                <td><strong>{{ $coupon->code }}</strong></td>
+                                                <td>{{ $coupon->type === 'percent' ? $coupon->value . '% OFF' : config('cart.currency') . ' ' . number_format($coupon->value, 2) . ' OFF' }}</td>
+                                                <td>{{ $coupon->expires_at ? $coupon->expires_at->format('Y-m-d H:i') : '無期限' }}</td>
+                                                <td>@if($coupon->first_order_only) 初回注文限定 @else - @endif</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <p class="text-muted">カート画面のクーポンコード欄にコードを入力するとご利用いただけます。</p>
+                            @endif
                         </div>
-                        <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'orders')active @endif" id="orders">
+                        <div role="tabpanel" class="tab-pane fade @if(request()->input('tab') == 'orders') show active @endif" id="orders">
                             @if(!$orders->isEmpty())
                                 <table class="table">
                                 <tbody>
                                 <tr>
-                                    <td>Date</td>
-                                    <td>Total</td>
-                                    <td>Status</td>
+                                    <td>日付</td>
+                                    <td>合計</td>
+                                    <td>ステータス</td>
                                 </tr>
                                 </tbody>
                                 <tbody>
                                 @foreach ($orders as $order)
                                     <tr>
                                         <td>
-                                            <a data-toggle="modal" data-target="#order_modal_{{$order['id']}}" title="Show order" href="javascript: void(0)">{{ date('M d, Y h:i a', strtotime($order['created_at'])) }}</a>
+                                            <a data-bs-toggle="modal" data-bs-target="#order_modal_{{$order['id']}}" title="注文を表示" href="javascript: void(0)">{{ date('Y年m月d日 H:i', strtotime($order['created_at'])) }}</a>
                                             <!-- Button trigger modal -->
                                             <!-- Modal -->
                                             <div class="modal fade" id="order_modal_{{$order['id']}}" tabindex="-1" role="dialog" aria-labelledby="MyOrders">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title" id="myModalLabel">Reference #{{$order['reference']}}</h4>
+                                                            <h4 class="modal-title" id="myModalLabel">注文番号 #{{$order['reference']}}</h4>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <table class="table">
                                                                 <thead>
-                                                                    <th>Address</th>
-                                                                    <th>Payment Method</th>
-                                                                    <th>Total</th>
+                                                                    <th>お届け先</th>
+                                                                    <th>お支払い方法</th>
+                                                                    <th>合計</th>
                                                                 </thead>
                                                                 <tbody>
                                                                     <tr>
@@ -73,14 +100,14 @@
                                                             </table>
                                                             @include('front.customers.order-status', ['status' => $order['status']])
                                                             <hr>
-                                                            <p>Order details:</p>
+                                                            <p>注文内容:</p>
                                                             <table class="table">
                                                               <thead>
-                                                                  <th>Name</th>
-                                                                  <th>Quantity</th>
-                                                                  <th>Price</th>
-                                                                  <th>Cover</th>
-                                                                  <th>Certificate</th>
+                                                                  <th>商品名</th>
+                                                                  <th>数量</th>
+                                                                  <th>価格</th>
+                                                                  <th>画像</th>
+                                                                  <th>鑑定書</th>
                                                               </thead>
                                                               <tbody>
                                                               @foreach ($order['products'] as $product)
@@ -91,37 +118,37 @@
                                                                       <td><img src="{{ asset("storage/".$product['cover']) }}" width=50px height=50px alt="{{ $product['name'] }}" class="img-orderDetail"></td>
                                                                       <td>
                                                                           @if(!empty($product['certificate']))
-                                                                              <a href="javascript: void(0)" data-toggle="modal" data-target="#certificate_modal_{{$order['id']}}_{{$product['id']}}">
-                                                                                  <i class="fa fa-certificate"></i> View
+                                                                              <a href="javascript: void(0)" data-bs-toggle="modal" data-bs-target="#certificate_modal_{{$order['id']}}_{{$product['id']}}">
+                                                                                  <i class="fa fa-certificate"></i> 表示
                                                                               </a>
                                                                               <div class="modal fade" id="certificate_modal_{{$order['id']}}_{{$product['id']}}" tabindex="-1" role="dialog">
                                                                                   <div class="modal-dialog" role="document">
                                                                                       <div class="modal-content">
                                                                                           <div class="modal-header">
-                                                                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                                                              <h4 class="modal-title">Certificate of Authenticity - {{ $product['name'] }}</h4>
+                                                                                              <h4 class="modal-title">鑑定書 - {{ $product['name'] }}</h4>
+                                                                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                           </div>
                                                                                           <div class="modal-body">
                                                                                               <table class="table">
                                                                                                   @if(!empty($product['certificate']['appraiser_name']))
-                                                                                                      <tr><td>Appraiser</td><td>{{ $product['certificate']['appraiser_name'] }}</td></tr>
+                                                                                                      <tr><td>鑑定士</td><td>{{ $product['certificate']['appraiser_name'] }}</td></tr>
                                                                                                   @endif
                                                                                                   @if(!empty($product['certificate']['grade']))
-                                                                                                      <tr><td>Grade</td><td>{{ $product['certificate']['grade'] }}</td></tr>
+                                                                                                      <tr><td>グレード</td><td>{{ $product['certificate']['grade'] }}</td></tr>
                                                                                                   @endif
                                                                                                   @if(!empty($product['certificate']['serial_number']))
-                                                                                                      <tr><td>Serial number</td><td>{{ $product['certificate']['serial_number'] }}</td></tr>
+                                                                                                      <tr><td>シリアル番号</td><td>{{ $product['certificate']['serial_number'] }}</td></tr>
                                                                                                   @endif
                                                                                                   @if(!empty($product['certificate']['appraised_at']))
-                                                                                                      <tr><td>Appraised at</td><td>{{ date('Y-m-d', strtotime($product['certificate']['appraised_at'])) }}</td></tr>
+                                                                                                      <tr><td>鑑定日</td><td>{{ date('Y-m-d', strtotime($product['certificate']['appraised_at'])) }}</td></tr>
                                                                                                   @endif
                                                                                                   @if(!empty($product['certificate']['notes']))
-                                                                                                      <tr><td>Notes</td><td>{{ $product['certificate']['notes'] }}</td></tr>
+                                                                                                      <tr><td>備考</td><td>{{ $product['certificate']['notes'] }}</td></tr>
                                                                                                   @endif
                                                                                               </table>
                                                                                               @if(!empty($product['certificate']['file']))
                                                                                                   <a href="{{ asset('storage/'.$product['certificate']['file']) }}" target="_blank" class="btn btn-primary btn-sm">
-                                                                                                      <i class="fa fa-file"></i> View certificate file
+                                                                                                      <i class="fa fa-file"></i> 鑑定書ファイルを見る
                                                                                                   </a>
                                                                                               @endif
                                                                                           </div>
@@ -138,7 +165,7 @@
                                                             </table>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-default" data-bs-dismiss="modal">閉じる</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -152,30 +179,30 @@
                             </table>
                                 {{ $orders->links() }}
                             @else
-                                <p class="alert alert-warning">No orders yet. <a href="{{ route('home') }}">Shop now!</a></p>
+                                <p class="alert alert-warning">まだ注文がありません。<a href="{{ route('home') }}">今すぐ買い物する!</a></p>
                             @endif
                         </div>
-                        <div role="tabpanel" class="tab-pane @if(request()->input('tab') == 'address')active @endif" id="address">
+                        <div role="tabpanel" class="tab-pane fade @if(request()->input('tab') == 'address') show active @endif" id="address">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="{{ route('customer.address.create', auth()->user()->id) }}" class="btn btn-primary">Create your address</a>
+                                    <a href="{{ route('customer.address.create', auth()->user()->id) }}" class="btn btn-primary">住所を登録する</a>
                                 </div>
                             </div>
                             @if(!$addresses->isEmpty())
                                 <table class="table">
                                 <thead>
-                                    <th>Alias</th>
-                                    <th>Address 1</th>
-                                    <th>Address 2</th>
-                                    <th>City</th>
+                                    <th>名前</th>
+                                    <th>住所1</th>
+                                    <th>住所2</th>
+                                    <th>市区町村</th>
                                     @if(isset($address->province))
-                                    <th>Province</th>
+                                    <th>都道府県</th>
                                     @endif
-                                    <th>State</th>
-                                    <th>Country</th>
-                                    <th>Zip</th>
-                                    <th>Phone</th>
-                                    <th>Actions</th>
+                                    <th>州</th>
+                                    <th>国</th>
+                                    <th>郵便番号</th>
+                                    <th>電話番号</th>
+                                    <th>操作</th>
                                 </thead>
                                 <tbody>
                                     @foreach($addresses as $address)
@@ -196,8 +223,8 @@
                                                     <div class="btn-group">
                                                         <input type="hidden" name="_method" value="delete">
                                                         {{ csrf_field() }}
-                                                        <a href="{{ route('customer.address.edit', [auth()->user()->id, $address->id]) }}" class="btn btn-primary"> <i class="fa fa-pencil"></i> Edit</a>
-                                                        <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button>
+                                                        <a href="{{ route('customer.address.edit', [auth()->user()->id, $address->id]) }}" class="btn btn-primary"> <i class="fa fa-pencil"></i> 編集</a>
+                                                        <button onclick="return confirm('本当に削除しますか?')" type="submit" class="btn btn-danger"> <i class="fa fa-trash"></i> 削除</button>
                                                     </div>
                                                 </form>
                                             </td>
@@ -206,7 +233,7 @@
                                 </tbody>
                             </table>
                             @else
-                                <br /> <p class="alert alert-warning">No address created yet.</p>
+                                <br /> <p class="alert alert-warning">まだ住所が登録されていません。</p>
                             @endif
                         </div>
                     </div>

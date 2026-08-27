@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Shop\Customers\Customer;
 use App\Http\Controllers\Controller;
+use App\Shop\Coupons\Coupon;
 use App\Shop\Customers\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Shop\Customers\Requests\CreateCustomerRequest;
 use App\Shop\Customers\Requests\RegisterCustomerRequest;
@@ -65,6 +66,18 @@ class RegisterController extends Controller
     {
         $customer = $this->create($request->except('_method', '_token'));
         Auth::login($customer);
+
+        $welcomeCoupon = Coupon::where('first_order_only', true)
+            ->where('is_active', true)
+            ->where(function ($query) {
+                $query->whereNull('expires_at')->orWhere('expires_at', '>', now());
+            })
+            ->orderBy('id')
+            ->first();
+
+        if ($welcomeCoupon) {
+            session()->flash('message', "ご登録ありがとうございます!初回のご注文限定クーポン「{$welcomeCoupon->code}」がご利用いただけます。カート画面のクーポンコード欄にご入力ください。");
+        }
 
         return redirect()->route('accounts');
     }

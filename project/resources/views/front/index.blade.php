@@ -9,6 +9,36 @@
 @section('content')
     @include('layouts.front.home-slider')
 
+    <section id="quick-links" class="quick-links-section">
+        <div class="container">
+            <div class="quick-links-grid">
+                <a href="{{ route('search.product') }}" class="quick-link-item">
+                    <i class="fa fa-th-large"></i>
+                    <span>商品一覧</span>
+                </a>
+                <a href="{{ route('cart.index') }}" class="quick-link-item">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>カートを見る</span>
+                </a>
+                @auth
+                    <a href="{{ route('accounts', ['tab' => 'profile']) }}" class="quick-link-item">
+                        <i class="fa fa-user"></i>
+                        <span>マイページ</span>
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="quick-link-item">
+                        <i class="fa fa-user"></i>
+                        <span>ログイン / 会員登録</span>
+                    </a>
+                @endauth
+                <a href="{{ route('contact') }}" class="quick-link-item">
+                    <i class="fa fa-envelope"></i>
+                    <span>お問い合わせ</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
     @if ($cat1->products->isNotEmpty())
         <section id="collection" class="new-product t100 home">
             <div class="container">

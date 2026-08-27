@@ -9,10 +9,11 @@ class Coupon extends Model
     public const TYPE_FIXED = 'fixed';
     public const TYPE_PERCENT = 'percent';
 
-    protected $fillable = ['code', 'type', 'value', 'expires_at', 'is_active'];
+    protected $fillable = ['code', 'type', 'value', 'expires_at', 'is_active', 'first_order_only'];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'first_order_only' => 'boolean',
     ];
 
     protected $dates = ['expires_at'];

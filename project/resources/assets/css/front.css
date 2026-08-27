@@ -262,6 +262,56 @@ li.menubar-cart a {
 
 
 /* ************************
+        QUICK LINKS
+************************** */
+.quick-links-section {
+    padding: 50px 0;
+    background: #faf8f5;
+    border-bottom: 1px solid #eee;
+}
+.quick-links-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.quick-link-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    padding: 25px 15px;
+    background: #fff;
+    border: 1px solid #e6e2da;
+    border-radius: 4px;
+    color: var(--ink);
+    transition: .3s;
+}
+.quick-link-item i {
+    font-size: 26px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    transition: .3s;
+}
+.quick-link-item span {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+.quick-link-item:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #fff;
+    transform: translateY(-3px);
+}
+.quick-link-item:hover i {
+    color: #fff;
+}
+
+
+/* ************************
         PRODUCT
 ************************** */
 

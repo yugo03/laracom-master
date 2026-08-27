@@ -52,6 +52,7 @@ class CouponController extends Controller
     {
         $data = $request->all();
         $data['is_active'] = $request->has('is_active');
+        $data['first_order_only'] = $request->has('first_order_only');
 
         $this->couponRepo->createCoupon($data);
 
@@ -81,6 +82,7 @@ class CouponController extends Controller
 
         $data = $request->all();
         $data['is_active'] = $request->has('is_active');
+        $data['first_order_only'] = $request->has('first_order_only');
 
         $couponRepo = new CouponRepository($coupon);
         $couponRepo->updateCoupon($data);

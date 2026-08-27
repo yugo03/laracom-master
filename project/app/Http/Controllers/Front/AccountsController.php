@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Shop\Coupons\Coupon;
 use App\Shop\Couriers\Repositories\Interfaces\CourierRepositoryInterface;
 use App\Shop\Customers\Repositories\CustomerRepository;
 use App\Shop\Customers\Repositories\Interfaces\CustomerRepositoryInterface;
@@ -52,10 +53,23 @@ class AccountsController extends Controller
 
         $addresses = $customerRepo->findAddresses();
 
+        $hasOrdered = $customer->orders()->exists();
+
+        $availableCoupons = Coupon::where('is_active', true)
+            ->where(function ($query) {
+                $query->whereNull('expires_at')->orWhere('expires_at', '>', now());
+            })
+            ->when($hasOrdered, function ($query) {
+                $query->where('first_order_only', false);
+            })
+            ->orderBy('id')
+            ->get();
+
         return view('front.accounts', [
             'customer' => $customer,
             'orders' => $this->customerRepo->paginateArrayResults($orders->toArray(), 15),
-            'addresses' => $addresses
+            'addresses' => $addresses,
+            'availableCoupons' => $availableCoupons
         ]);
     }
 }

@@ -5,8 +5,8 @@
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">
-                    <li><a href="{{ route('home') }}"> <i class="fa fa-home"></i> Home</a></li>
-                    <li class="active">Shopping Cart</li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}"> <i class="fa fa-home"></i> ホーム</a></li>
+                    <li class="breadcrumb-item active">ショッピングカート</li>
                 </ol>
             </div>
             <div class="col-md-12">

@@ -89,7 +89,7 @@ class CartController extends Controller
         try {
             $this->cartRepo->applyCoupon($request->input('code'));
 
-            return redirect()->route('cart.index')->with('message', 'Coupon applied successfully!');
+            return redirect()->route('cart.index')->with('message', 'クーポンを適用しました!');
         } catch (CouponNotFoundException | CouponInvalidException $e) {
             return redirect()->route('cart.index')->with('error', $e->getMessage());
         }
@@ -104,7 +104,7 @@ class CartController extends Controller
     {
         $this->cartRepo->removeCoupon();
 
-        return redirect()->route('cart.index')->with('message', 'Coupon removed.');
+        return redirect()->route('cart.index')->with('message', 'クーポンを解除しました。');
     }
 
     /**
@@ -143,7 +143,7 @@ class CartController extends Controller
         $this->cartRepo->addToCart($product, $request->input('quantity'), $options);
 
         return redirect()->route('cart.index')
-            ->with('message', 'Add to cart successful');
+            ->with('message', 'カートに追加しました');
     }
 
     /**
@@ -157,7 +157,7 @@ class CartController extends Controller
     {
         $this->cartRepo->updateQuantityInCart($id, $request->input('quantity'));
 
-        request()->session()->flash('message', 'Update cart successful');
+        request()->session()->flash('message', 'カートを更新しました');
         return redirect()->route('cart.index');
     }
 
@@ -171,7 +171,7 @@ class CartController extends Controller
     {
         $this->cartRepo->removeToCart($id);
 
-        request()->session()->flash('message', 'Removed to cart successful');
+        request()->session()->flash('message', 'カートから削除しました');
         return redirect()->route('cart.index');
     }
 }

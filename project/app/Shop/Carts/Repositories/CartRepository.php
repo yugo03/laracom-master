@@ -113,6 +113,16 @@ class CartRepository extends BaseRepository implements CartRepositoryInterface
             throw new CouponInvalidException("The coupon \"{$code}\" is no longer valid.");
         }
 
+        if ($coupon->first_order_only) {
+            if (!auth()->check()) {
+                throw new CouponInvalidException('このクーポンをご利用いただくには、ログインが必要です。');
+            }
+
+            if (auth()->user()->orders()->exists()) {
+                throw new CouponInvalidException('このクーポンは初めてのご注文のお客様のみご利用いただけます。');
+            }
+        }
+
         session(['coupon_code' => $coupon->code]);
 
         return $coupon;
